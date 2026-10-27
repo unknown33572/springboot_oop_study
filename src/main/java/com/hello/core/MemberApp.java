@@ -3,6 +3,8 @@ package com.hello.core;
 import com.hello.core.member.Member;
 import com.hello.core.member.MemberService;
 import com.hello.core.member.MemberServiceImpl;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class MemberApp {
   public static void main(String[] args) {
@@ -17,11 +19,14 @@ public class MemberApp {
 //    System.out.println("member equals found member = " + (member == findMember)); // false
 //    System.out.println("member equals found member = " + (member.getName().equals(findMember.getName()))); // true
 
-    AppConfig appConfig = new AppConfig();
-    MemberService memberService = appConfig.memberService();
+//    AppConfig appConfig = new AppConfig();
+//    MemberService memberService = appConfig.memberService();
 
-    Long memberId = 1L;
-    Member member = new Member(memberId, "memberA", com.hello.core.member.Grade.VIP);
+//    Long memberId = 1L;
+    ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+    MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
+
+    Member member = new Member(1L, "memberA", com.hello.core.member.Grade.VIP);
     memberService.join(member);
 
     Member findMember = memberService.findMember(1L);
